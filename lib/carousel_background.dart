@@ -6,7 +6,7 @@ import 'package:carousel_slider/carousel_slider.dart' as cs;
 import 'package:flutter_svg/flutter_svg.dart';
 
 /// A full‑screen carousel that loads whatever images live under
-/// `assets/assets/images/...` and cycles them automatically.  It
+/// `assets/images/` and cycles them automatically.  It
 /// exposes a [CarouselController] so callers can manipulate the
 /// active page, and optionally renders a set of page indicators.
 ///
@@ -46,44 +46,46 @@ class _CarouselBackgroundState extends State<CarouselBackground> {
   }
 
   Future<void> _loadImages() async {
-    String manifestContent;
+    try {
+      String manifestContent;
 
-    Future<String> tryPaths(List<String> paths) async {
-      for (var p in paths) {
+      Future<String> tryPaths(List<String> paths) async {
+        for (var p in paths) {
+          try {
+            return await rootBundle.loadString(p);
+          } catch (_) {}
+        }
+        throw Exception('could not load asset manifest');
+      }
+
+      manifestContent = await tryPaths([
+        'AssetManifest.bin.json',
+        'assets/AssetManifest.bin.json',
+        'AssetManifest.bin',
+        'assets/AssetManifest.bin',
+      ]);
+
+      final trimmed = manifestContent.trim();
+      if (!trimmed.startsWith('{') &&
+          trimmed.contains(RegExp(r'^[A-Za-z0-9+/=\r\n]+$'))) {
         try {
-          return await rootBundle.loadString(p);
+          manifestContent = utf8.decode(base64.decode(trimmed));
         } catch (_) {}
       }
-      throw Exception('could not load asset manifest');
+
+      final Map<String, dynamic> manifestMap = json.decode(manifestContent);
+      final images = manifestMap.keys
+          .where((String key) => key.startsWith('assets/images/'))
+          .toList();
+
+      if (images.isNotEmpty) {
+        setState(() {
+          _images = images;
+        });
+      }
+    } catch (e) {
+      debugPrint('CarouselBackground: Failed to load images - $e');
     }
-
-    manifestContent = await tryPaths([
-      'AssetManifest.bin.json',
-      'assets/AssetManifest.bin.json',
-      'AssetManifest.bin',
-      'assets/AssetManifest.bin',
-    ]);
-
-    final trimmed = manifestContent.trim();
-    if (!trimmed.startsWith('{') &&
-        trimmed.contains(RegExp(r'^[A-Za-z0-9+/=\r\n]+$'))) {
-      try {
-        manifestContent = utf8.decode(base64.decode(trimmed));
-      } catch (_) {}
-    }
-
-    final Map<String, dynamic> manifestMap = json.decode(manifestContent);
-    // debug output: show parsed manifest map (may be large)
-    // ignore: avoid_print
-    print('CarouselBackground manifestMap: ${manifestMap.keys.length} entries');
-    // uncomment below for full dump during development
-    // print(manifestMap);
-    final images = manifestMap.keys
-        .where((String key) => key.startsWith('assets/images/'))
-        .toList();
-    setState(() {
-      _images = images;
-    });
   }
 
   @override
