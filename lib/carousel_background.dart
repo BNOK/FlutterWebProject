@@ -47,33 +47,8 @@ class _CarouselBackgroundState extends State<CarouselBackground> {
 
   Future<void> _loadImages() async {
     try {
-      String manifestContent;
-
-      Future<String> tryPaths(List<String> paths) async {
-        for (var p in paths) {
-          try {
-            return await rootBundle.loadString(p);
-          } catch (_) {}
-        }
-        throw Exception('could not load asset manifest');
-      }
-
-      manifestContent = await tryPaths([
-        'AssetManifest.bin.json',
-        'assets/AssetManifest.bin.json',
-        'AssetManifest.bin',
-        'assets/AssetManifest.bin',
-      ]);
-
-      final trimmed = manifestContent.trim();
-      if (!trimmed.startsWith('{') &&
-          trimmed.contains(RegExp(r'^[A-Za-z0-9+/=\r\n]+$'))) {
-        try {
-          manifestContent = utf8.decode(base64.decode(trimmed));
-        } catch (_) {}
-      }
-
-      final Map<String, dynamic> manifestMap = json.decode(manifestContent);
+      final manifestJson = await rootBundle.loadString('AssetManifest.json');
+      final Map<String, dynamic> manifestMap = json.decode(manifestJson);
       final images = manifestMap.keys
           .where((String key) => key.startsWith('assets/images/'))
           .toList();
