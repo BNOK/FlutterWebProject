@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart' as cs;
-//import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 /// A full‑screen carousel that loads whatever images live under
@@ -47,28 +45,8 @@ class _CarouselBackgroundState extends State<CarouselBackground> {
 
   Future<void> _loadImages() async {
     try {
-      String manifestJson;
-      List<String> paths = [
-        'AssetManifest.json',
-        'assets/AssetManifest.json',
-      ];
-
-      manifestJson = '';
-      for (var path in paths) {
-        try {
-          manifestJson = await rootBundle.loadString(path);
-          break;
-        } catch (_) {
-          continue;
-        }
-      }
-
-      if (manifestJson.isEmpty) {
-        throw Exception('AssetManifest.json not found');
-      }
-
-      final Map<String, dynamic> manifestMap = json.decode(manifestJson);
-      final images = manifestMap.keys
+      final assetManifest = await AssetManifest.loadFromAssetBundle(rootBundle);
+      final images = assetManifest.listAssets()
           .where((String key) => key.startsWith('assets/images/'))
           .toList();
 
