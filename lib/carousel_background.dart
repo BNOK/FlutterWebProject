@@ -47,7 +47,26 @@ class _CarouselBackgroundState extends State<CarouselBackground> {
 
   Future<void> _loadImages() async {
     try {
-      final manifestJson = await rootBundle.loadString('AssetManifest.json');
+      String manifestJson;
+      List<String> paths = [
+        'AssetManifest.json',
+        'assets/AssetManifest.json',
+      ];
+
+      manifestJson = '';
+      for (var path in paths) {
+        try {
+          manifestJson = await rootBundle.loadString(path);
+          break;
+        } catch (_) {
+          continue;
+        }
+      }
+
+      if (manifestJson.isEmpty) {
+        throw Exception('AssetManifest.json not found');
+      }
+
       final Map<String, dynamic> manifestMap = json.decode(manifestJson);
       final images = manifestMap.keys
           .where((String key) => key.startsWith('assets/images/'))
@@ -57,6 +76,7 @@ class _CarouselBackgroundState extends State<CarouselBackground> {
         setState(() {
           _images = images;
         });
+        debugPrint('CarouselBackground: Loaded ${images.length} images');
       }
     } catch (e) {
       debugPrint('CarouselBackground: Failed to load images - $e');
