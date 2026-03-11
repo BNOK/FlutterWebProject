@@ -1,0 +1,25 @@
+name: viontech
+description: A minimal Flutter web landing page scaffold inspired by parkin.ae
+publish_to: 'none'
+version: 0.0.1
+
+environment:
+  sdk: '>=2.17.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_fonts: ^8.0.2
+  flutter_svg: ^2.2.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    # include all files under assets/images so the slideshow can discover them
+    - assets/images/
+    # text content for sections
+    - assets/content/

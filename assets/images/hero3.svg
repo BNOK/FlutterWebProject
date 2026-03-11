@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#ef4444" stop-opacity="0.95"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" rx="24" fill="url(#g)" />
+  <g transform="translate(120,140) scale(1)">
+    <rect x="60" y="200" width="880" height="320" rx="20" fill="#ffffff" opacity="0.06" />
+    <g transform="translate(120,60)">
+      <path d="M50 220 C60 200 120 160 240 160 L560 160 C700 160 740 200 760 240 L820 320 L740 360 L120 360 L50 320 Z" fill="#ffffff" opacity="0.18"/>
+      <circle cx="200" cy="380" r="36" fill="#ffffff" opacity="0.2"/>
+      <circle cx="640" cy="380" r="36" fill="#ffffff" opacity="0.2"/>
+    </g>
+    <text x="80" y="120" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700">Eco Parking</text>
+    <text x="80" y="170" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="20">Sustainable and green solutions</text>
+  </g>
+</svg>
