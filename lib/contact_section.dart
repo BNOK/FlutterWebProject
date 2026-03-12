@@ -12,18 +12,19 @@ class ContactSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Center(
-          child: Text(
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 48),
+      child: Column(
+        children: [
+          Text(
             'Contact Us',
             style: Theme.of(context)
                 .textTheme
-                .headlineSmall
+                .headlineMedium
                 ?.copyWith(fontWeight: FontWeight.bold),
           ),
-        ),
-        const SizedBox(height: 24),
+          const SizedBox(height: 32),
         SectionBox(
           backgroundColor: Colors.white,
           child: Padding(
@@ -94,6 +95,7 @@ class ContactSection extends StatelessWidget {
           ),
         ),
       ],
+      ),
     );
   }
 }

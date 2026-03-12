@@ -16,6 +16,14 @@ class FeaturesSection extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 48),
       child: Column(
         children: [
+          Text(
+            'Services',
+            style: Theme.of(context)
+                .textTheme
+                .headlineMedium
+                ?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 32),
           FutureBuilder<String>(
             future: _loadContent(),
             builder: (context, snapshot) {

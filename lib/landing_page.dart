@@ -61,7 +61,8 @@ class _LandingPageState extends State<LandingPage> {
     final ctx = key.currentContext;
     if (ctx != null) {
       Scrollable.ensureVisible(ctx,
-          duration: const Duration(milliseconds: 300));
+          duration: const Duration(milliseconds: 300),
+          alignment: 0.0);
     }
   }
 

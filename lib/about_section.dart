@@ -23,11 +23,11 @@ class AboutSection extends StatelessWidget {
               'About Us',
               style: Theme.of(context)
                   .textTheme
-                  .headlineSmall
+                  .headlineMedium
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 32),
           // two light blue boxes
           Row(
             children: [
